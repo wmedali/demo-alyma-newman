@@ -1,0 +1,27 @@
+jobs:
+  newman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          npm install -g newman newman-reporter-htmlextra
+
+      - name: Run tests
+        run: |
+          newman run collection.json
+
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: JUnit report
+          path: newman/*.xml
+          reporter: java-junit
+
+      - name: Publish HTML report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: html-report
+          path: newman/*.html
