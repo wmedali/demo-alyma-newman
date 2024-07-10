@@ -1,3 +1,7 @@
+name: Execute API tests
+
+on: [push, workflow_dispatch]
+
 jobs:
   newman:
     runs-on: ubuntu-latest
